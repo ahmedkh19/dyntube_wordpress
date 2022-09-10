@@ -19,24 +19,15 @@
  * Requires PHP:      7.4
 */
 require_once "class-dyntube_api.php";
-
-// If this file is called directly, abort.
-function wp_test() {
-    // $fh = fopen(__DIR__ . "/sitevisitors.txt", "w");
-    // if($fh==false)
-    //     die("unable to create file");
-    // fputs ($fh, 1);
-    // fclose ($fh);
-
-}
-add_action('init', 'wp_test');
-
 add_action( "added_post_meta", 'upload_video_to_dyntube', 10 , 4);
 function upload_video_to_dyntube($meta_id, $post_ID, $meta_key, $meta_value ) {
     $class = new DynTube_API();
     if (wp_attachment_is('video', $post_ID)) {
         $post = get_post($post_ID);
-        $class->UPLOAD_VIDEO($post->guid);
+        $video = $class->UPLOAD_VIDEO($post->guid);
+        update_field('videoid', $video['videoId'], $post_ID);
+        update_field('channelkey', $video['channelKey'], $post_ID);
+        update_field('iframelink', $video['iframeLink'], $post_ID);
     }
 
 }
