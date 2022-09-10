@@ -24,7 +24,7 @@ function upload_video_to_dyntube($meta_id, $post_ID, $meta_key, $meta_value ) {
     $class = new DynTube_API();
     if (wp_attachment_is('video', $post_ID)) {
         $post = get_post($post_ID);
-        if (!get_field('videoid', $post_ID)) {
+        if (empty(get_field('videoid', $post_ID))) {
             $video = $class->UPLOAD_VIDEO($post->guid);
             update_field('videoid', $video['videoId'], $post_ID);
             update_field('channelkey', $video['channelKey'], $post_ID);
