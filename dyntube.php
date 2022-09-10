@@ -19,7 +19,6 @@
  * Requires PHP:      7.4
 */
 require_once "class-dyntube_api.php";
-$class = new DynTube_API();
 
 // If this file is called directly, abort.
 function wp_test() {
@@ -34,13 +33,10 @@ add_action('init', 'wp_test');
 
 add_action( "added_post_meta", 'upload_video_to_dyntube', 10 , 4);
 function upload_video_to_dyntube($meta_id, $post_ID, $meta_key, $meta_value ) {
-    
+    $class = new DynTube_API();
     if (wp_attachment_is('video', $post_ID)) {
         $post = get_post($post_ID);
-        $result = $class->_BASEAPI($post->guid);
-        $fh = fopen(__DIR__ . "/data.txt", "w");
-        fputs ($fh, $result);
-        fclose ($fh);
+        $class->UPLOAD_VIDEO($post->guid);
     }
 
 }

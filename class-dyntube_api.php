@@ -10,7 +10,7 @@ class DynTube_API {
     /*
     * Base API : the fundemntial of the api request
     */
-    private function _BASEAPI($_URL, $_METHOD , $_FIELDS)
+    private function BASEAPI($_URL, $_METHOD , $_FIELDS)
     {
         try {
             $curl = curl_init();
@@ -26,14 +26,14 @@ class DynTube_API {
                 CURLOPT_CUSTOMREQUEST     => $_METHOD,
                 CURLOPT_POSTFIELDS        => $_FIELDS,
                 CURLOPT_HTTPHEADER        => array(
-                    "Authorization: Bearer " . TOKEN
+                    "Authorization: Bearer " . SELF::TOKEN
                 ),
             ));
 
             $response = curl_exec($curl);
 
             curl_close($curl);
-            return $response;
+            return  $response;
         } catch (\Throwable $th) {
             return $th;
         }
@@ -44,13 +44,13 @@ class DynTube_API {
     /*
     * Upload video using url
     */
-    public function _UPLOAD_VIDEO($_VIDEO_URL) 
+    public function UPLOAD_VIDEO($_VIDEO_URL) 
     {
         $fields = array(
             'url' => $_VIDEO_URL,
-            'projectId' => PROJECT_ID
+            'projectId' => SELF::PROJECT_ID
         );
-        $result = _BASEAPI(API_URL['video'], 'POST', $fields);
+        $result = $this->BASEAPI(SELF::API_URL['video'], 'POST', $fields);
         return $result;
     }
 
