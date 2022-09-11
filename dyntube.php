@@ -37,6 +37,7 @@ function upload_video_to_dyntube($meta_id, $post_ID, $meta_key, $meta_value ) {
 }
 
 function delete_video_dyntube( $post_ID, $post ) {
+    $class = new DynTube_API();
     if (wp_attachment_is('video', $post_ID) ) {
         $post = get_post($post_ID);
         $videoid = get_field('videoid', $post_ID);
