@@ -20,6 +20,7 @@
 */
 require_once "class-dyntube_api.php";
 add_action( "added_post_meta", 'upload_video_to_dyntube', 10 , 4);
+add_action( 'delete_post', 'delete_video_dyntube', 10 );
 function upload_video_to_dyntube($meta_id, $post_ID, $meta_key, $meta_value ) {
     $class = new DynTube_API();
     if (wp_attachment_is('video', $post_ID)) {
@@ -32,4 +33,14 @@ function upload_video_to_dyntube($meta_id, $post_ID, $meta_key, $meta_value ) {
         }
     }
 
+}
+
+function delete_video_dyntube( $post_ID ) {
+    if (wp_attachment_is('video', $post_ID) ) {
+        $post = get_post($post_ID);
+        $videoid = get_field('videoid', $post_ID);
+        if (!empty($videoid)) {
+            $video = $class->DELETE_VIDEO($videoid);
+        }
+    }
 }

@@ -54,17 +54,12 @@ class DynTube_API {
         $result = $this->BASEAPI(SELF::API_URL['upload_video'], 'POST', $fields);
         return $result;
     }
-    // We need to save (channelKey / videoID)
     /*
     * Upload video by id
     */
     public function DELETE_VIDEO($_VIDEO_ID) 
     {
-        $fields = array(
-            'url' => $_VIDEO_URL,
-            'projectId' => SELF::PROJECT_ID
-        );
-        $result = $this->BASEAPI(SELF::API_URL['upload_video'], 'POST', $fields);
+        $result = $this->BASEAPI(SELF::API_URL['delete_video'] . $_VIDEO_ID, 'DELETE', null);
         return $result;
     }
 
